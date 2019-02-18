@@ -1,0 +1,22 @@
+canvas {
+    border: 1px solid black;
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+    background: rgb(212, 200, 200);
+}
+
+.header {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.cnt {
+    border: 1px solid black;
+}
+
+.message {
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
