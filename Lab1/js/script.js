@@ -4,6 +4,8 @@ const canvas2 = document.getElementById('task2');
 const ctx2 = canvas2.getContext('2d');
 const canvas3 = document.getElementById('task3');
 const ctx3 = canvas3.getContext('2d');
+const canvas4 = document.getElementById('task4');
+const ctx4 = canvas4.getContext('2d');
 
 function drawLine(ctx, point1, point2, point1Name, point2Name) {
     ctx.moveTo(point1.x, point1.y);
@@ -66,12 +68,48 @@ function drawPolygon(ctx, points) {
     }
 }
 
-function checkPolygon(points) {
+function isSimple(points) {
     for (let i = 0; i < points.length; i++) {
-        for (let j = i + 2; j < points.length - 1; j++) {
-
-        }
+        for (let j = 0; j < points.length; j++) {
+            let p1 = points[i];
+            let p2 = i === points.length - 1 ? points[0] : points[i + 1];
+            let p3 = points[j];
+            let p4 = j === points.length - 1 ? points[0] : points[j + 1];
+            if (p1 === p3 || p2 === p4 || p1 === p4 || p2 === p3) continue;
+            if (isIntersect(p1, p2, p3, p4)) return false;        }
     }
+    return true;
+}
+
+function getPosition(point, beginLine, endLine) {
+    const det = math.det(formMatrix(point, beginLine, endLine));
+    if (det > 0) return 1;
+    return -1;
+}
+
+function isIntersect(p1, p2, p3, p4) {
+    const d1 =  math.det(formMatrix(p1, p3, p4));
+    const d2 =  math.det(formMatrix(p2, p3, p4));
+    const d3 =  math.det(formMatrix(p3, p1, p2));
+    const d4 =  math.det(formMatrix(p4, p1, p2));
+    if (d1 * d2 <= 0 && d3 * d4 <= 0) return true;
+    return false;
+}
+
+
+function isConvex(points) {
+    if (!isSimple(points)) return false;
+    const p1 = points[points.length - 1];   
+    const p2 = points[0];
+    const sign = getPosition(points[1], p1, p2);
+    for (let i = 0; i < points.length - 1; i++) {
+        let point1 = points[i];
+        let point2 = points[i + 1];
+        let point = i == points.length - 2 ? points[0] : points[i + 2];
+        let currentSign = getPosition(point, point1, point2);
+        if (sign != currentSign) return false;
+    }
+    return true;
 }
 
 function solveTask1() {
@@ -107,10 +145,27 @@ function solveTask3() {
         points.push(randomPoint(canvas3.width, canvas3.height));
     }
     drawPolygon(ctx3, points);
-    //checkPolygon(points);
+    let message = 'This polygon is not simple';
+    if (isSimple(points)) {
+        message = 'This polygon is simple';
+    }
+    writeMessage(message, document.querySelector('.container3'));
+}
+
+function solveTask4() {
+    let points = [];
+    for (let i = 0; i < 4; i++) {
+        points.push(randomPoint(canvas3.width, canvas3.height));
+    }
+    drawPolygon(ctx4, points);
+    let message = "This polygon is not convex";
+    if (isConvex(points)) {
+        message = "This polygon is convex";
+    }
+    writeMessage(message, document.querySelector('.container4'));
 }
 
 solveTask1();
 solveTask2();
 solveTask3();
-//solveTask4();
+solveTask4();
