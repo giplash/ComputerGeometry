@@ -119,7 +119,7 @@ function solveTask1() {
     drawPoint(ctx1, p0);
     drawLine(ctx1, p1, p2, 'p1', 'p2');
     const pointLocation = checkLocation(p0, p1, p2);
-    writeMessage(`point p0 ${pointLocation} according the line p1 p2`, document.querySelector('.container1'));
+    writeMessage(`point p0 ${pointLocation} according the vector p1 p2`, document.querySelector('.container1'));
 }
 
 function solveTask2() {
@@ -133,9 +133,9 @@ function solveTask2() {
     const d2 =  math.det(formMatrix(p2, p3, p4));
     const d3 =  math.det(formMatrix(p3, p1, p2));
     const d4 =  math.det(formMatrix(p4, p1, p2));
-    let  message = "This lines are not intersect";
-    if (d1 * d2 <= 0 && d3 * d4 <= 0) message = "The lines are intersect";
-    else if (d1 == d2 && d2 == d3 && d3 == d4) message = "The lines are match up";
+    let  message = "This segments are not intersect";
+    if (d1 * d2 <= 0 && d3 * d4 <= 0) message = "The segments are intersect";
+    else if (d1 == d2 && d2 == d3 && d3 == d4) message = "The segments are match up";
     writeMessage(message, document.querySelector('.container2'));
 }
 
@@ -154,7 +154,7 @@ function solveTask3() {
 
 function solveTask4() {
     let points = [];
-    for (let i = 0; i < 4; i++) {
+    for (let i = 0; i < 6; i++) {
         points.push(randomPoint(canvas3.width, canvas3.height));
     }
     drawPolygon(ctx4, points);
